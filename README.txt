@@ -1,0 +1,1 @@
+index.js demonstrates advantage of YARGS to parse the command lines like LIST, ADD, REMOVE, etc.
