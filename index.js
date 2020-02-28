@@ -11,11 +11,18 @@ const argv = yargs.argv;
 var command = argv._[0];
 //var command = process.argv[2];
 
-console.log('Process', process.argv);
+//console.log('Process', process.argv); // to compare how process.argv and yargs.argv would look like
 console.log('Yargs', argv);
 
 if(command === 'add') {
-    notes.addNote(argv.title, argv.body);
+    let note = notes.addNote(argv.title, argv.body);
+    if(note) {
+        console.log('Note created');
+        console.log('\tTitle: ', note.title);
+        console.log('\tBody: ', note.body);
+    } else {
+        console.log('Note title taken');
+    }
 } else if(command === 'list') {
     notes.getAll();
 } else if(command === 'read') {
