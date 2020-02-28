@@ -1,8 +1,5 @@
-console.log('Starting the notes.js');
-
-const add = (a, b) => {
-    return a + b;
-}
+const fs = require('fs');
+const _ = require('lodash');
 
 const fetchNotes = () => {
     try {
@@ -18,8 +15,7 @@ const saveNotes = (notes) => {
     fs.writeFileSync('notes-data.json', JSON.stringify(notes));
 };
 
-const fs = require('fs');
-const _ = require('lodash');
+
 const addNote = (title, body) => {
     var notes = fetchNotes();
     var note = {
@@ -38,25 +34,37 @@ const addNote = (title, body) => {
 };
 
 const getAll = () => {
-    console.log('Getting all notes');
+    return fetchNotes();
 }
 
 const getNote = (title) => {
-    console.log('Getting note', title);
+    let notes = fetchNotes();
+    let filteredNote = notes.filter(note => note.title === title);
+    return filteredNote[0];
 }
 
 const removeNote = (title) => {
     let notes = fetchNotes();
-    //let filteredNotes = notes.filter(note => note.title !== title);
+    let filteredNotes = notes.filter(note => note.title !== title);
+    /*
+    let isRemoved = false;
     notes.forEach(note => {
         if(note.title === title) {
-            _.remove(notes, note);
+            _.remove(notes, note);          // my implementation
+            isRemoved = true;
         }
     });
-    saveNotes(notes);
+    */
+    saveNotes(filteredNotes);
+    return notes.length !== filteredNotes.length;
+    //return isRemoved;
 }
 
-
+const logNote = (note) => {
+    console.log('---');
+    console.log('Title: ', note.title);
+    console.log('Body: ', note.body);
+}
 module.exports.age = 21;
 
 module.exports = {
@@ -64,5 +72,5 @@ module.exports = {
     getAll,
     getNote,
     removeNote,
-    add
+    logNote
 }
